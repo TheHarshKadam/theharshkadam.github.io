@@ -34,16 +34,70 @@ navLink.forEach(n => n.addEventListener('click', linkAction))
 
 
 /*==================== ACCORDION SKILLS ====================*/
+const skillsContent = document.getElementsByClassName('skills__content'),
+      skillsHeader = document.querySelectorAll('.skills__header')
 
+function toggleSkills(){
+    let itemClass = this.parentNode.className
 
+    for(i=0; i<skillsContent.length; i++){
+        skillsContent[i].className = 'skills__content skills__close'
+    }
+    if(itemClass==='skills__content skills__close'){
+        this.parentNode.className = 'skills__content skills__open'
+    }
+}
+skillsHeader.forEach((eL)=>{
+    eL.addEventListener('click',toggleSkills)
+})
 /*==================== QUALIFICATION TABS ====================*/
+const tabs = document.querySelectorAll('[data-target]'),
+      tabContents = document.querySelectorAll('[data-content')
 
+tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+        const target = document.querySelector(tab.dataset.target)
+
+        tabContents.forEach(tabContents=>{
+            tabContents.classList.remove('qualification__active')
+        })
+        target.classList.add('qualification__active')
+        tabs.forEach(tab=>{
+            tab.classList.remove('qualification__active')
+        })
+        tab.classList.add('qualification__active')
+    })
+})
 
 /*==================== SERVICES MODAL ====================*/
 
 
 /*==================== PORTFOLIO SWIPER  ====================*/
-
+// let swiper = new Swiper(".portfolio__container", {
+//     cssMode: true,
+//     navigation: {
+//       nextEl: ".swiper-button-next",
+//       prevEl: ".swiper-button-prev",
+//     },
+//     pagination: {
+//       el: ".swiper-pagination",
+//     },
+//     mousewheel: true,
+//     keyboard: true,
+//   });
+let swiper = new Swiper(".portfolio__container", {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
 
 /*==================== TESTIMONIAL ====================*/
 
