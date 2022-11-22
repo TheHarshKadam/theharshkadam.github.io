@@ -21,4 +21,4 @@ A responsive mobile-first Personal portfolio website made using HTML, CSS, Javas
 
 ## Website is live!
 
-Check it out - [theharshkadam.github.io](theharshkadam.github.io)
+Check it out - [theharshkadam.github.io](https://theharshkadam.github.io/)
