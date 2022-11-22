@@ -135,7 +135,7 @@ const darkTheme = 'dark-theme'
 const iconTheme = 'uil-sun'
 
 // Previously selected topic (if user selected)
-const selectedTheme = darkTheme
+const selectedTheme = 'dark'
 const selectedIcon = iconTheme
 
 
