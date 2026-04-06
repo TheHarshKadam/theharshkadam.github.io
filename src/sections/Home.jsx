@@ -12,12 +12,22 @@ export default function Home() {
       <p className="h-role">Software Engineer &nbsp;·&nbsp; Backend &nbsp;·&nbsp; Full Stack</p>
       <div className="h-mono">&lt;building scalable systems /&gt;</div>
       <p className="h-desc">
-        Software Engineer with 3+ years of experience building scalable, high-performance web applications. Passionate about system design, clean architecture, and solving complex problems to create impactful, user-focused products.
+        Software Engineer with 3+ years of experience building scalable, high-performance web
+        applications. Passionate about system design, clean architecture, and solving complex
+        problems to create impactful, user-focused products.
       </p>
       <div className="h-btns">
-        <button className="btn-p" onClick={() => goTo("projects")}>View Projects →</button>
+        <a
+          className="btn-o"
+          href="../public/HARSHVARDHAN KADAM CV.pdf"
+          download
+          style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.4rem" }}
+        >
+          📄 Download Resume
+        </a>
         <button className="btn-o" onClick={() => goTo("about")}>About Me</button>
-        <button className="btn-o" onClick={() => goTo("contact")}>Let's Talk</button>
+        <button className="btn-p" onClick={() => goTo("projects")}>View Projects →</button>
+        
       </div>
       <div className="h-stats">
         <div className="stat"><div className="n">Backend</div><div className="l">Expert</div></div>
