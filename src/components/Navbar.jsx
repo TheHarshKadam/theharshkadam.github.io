@@ -11,14 +11,8 @@ export default function Navbar() {
         setMenuOpen(false);
       }
     }
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   const toggleTheme = () => {
@@ -28,19 +22,27 @@ export default function Navbar() {
 
   const goTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false); // close after click
+    setMenuOpen(false);
+  };
+
+  const sections = ["home", "about", "skills", "experience", "projects", "testimonials", "contact"];
+
+  const label = (sec) => {
+    if (sec === "experience") return "Timeline";
+    if (sec === "testimonials") return "Reviews";
+    return sec.charAt(0).toUpperCase() + sec.slice(1);
   };
 
   return (
     <nav>
       <div className="logo" onClick={() => goTo("home")}>THK.</div>
 
-      {/* 🔥 DESKTOP NAV */}
+      {/* DESKTOP NAV */}
       <ul className="nav-links desktop">
-        {["home", "about", "skills", "experience", "projects", "contact"].map((sec) => (
+        {sections.map((sec) => (
           <li key={sec}>
             <a href="#" onClick={(e) => { e.preventDefault(); goTo(sec); }}>
-              {sec === "experience" ? "Timeline" : sec.charAt(0).toUpperCase() + sec.slice(1)}
+              {label(sec)}
             </a>
           </li>
         ))}
@@ -51,7 +53,7 @@ export default function Navbar() {
           {dark ? "🌙" : "☀️"}
         </button>
 
-        {/* 🔥 HAMBURGER BUTTON */}
+        {/* HAMBURGER */}
         <button className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
           ☰
         </button>
@@ -64,11 +66,10 @@ export default function Navbar() {
       {menuOpen && (
         <>
           <div className="overlay" onClick={() => setMenuOpen(false)} />
-
           <div className="mobile-menu" ref={menuRef}>
-            {["home", "about", "skills", "experience", "projects", "contact"].map((sec) => (
+            {sections.map((sec) => (
               <a key={sec} onClick={() => goTo(sec)}>
-                {sec === "experience" ? "Timeline" : sec.toUpperCase()}
+                {label(sec).toUpperCase()}
               </a>
             ))}
           </div>
