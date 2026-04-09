@@ -15,6 +15,7 @@ export default function App() {
         <div className="amb-blob"></div>
         <div className="amb-blob"></div>
       </div>
+
       <div className="grid-overlay"></div>
 
       <Navbar />
@@ -23,7 +24,7 @@ export default function App() {
       <Skills />
       <Experience />
       <Projects />
-      <Testimonials />  
+      <Testimonials />
       <Contact />
 
       <footer>

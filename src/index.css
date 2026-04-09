@@ -69,7 +69,7 @@
     white-space: nowrap;
   }
 
-  .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+  .nav-links { display: flex; gap: 1.8rem; list-style: none; margin-left: 5.9rem; }
   .nav-links a {
     color: var(--t2); text-decoration: none; font-size: 0.82rem; font-weight: 600;
     letter-spacing: 0.8px; text-transform: uppercase; transition: color 0.2s; position: relative;
@@ -559,12 +559,11 @@
   }
   footer span { color: var(--c1); }
 
-  /* ═══════════════════════════════════════════════════
-   TESTIMONIALS  — add this block to the bottom of
-   your existing index.css
+/* ═══════════════════════════════════════════════════
+   TESTIMONIALS — replace the existing testimonials
+   block at the bottom of your index.css with this
    ═══════════════════════════════════════════════════ */
 
-/* Section layout */
 #testimonials {
   min-height: auto;
   padding-top: 5rem;
@@ -588,7 +587,6 @@
   gap: 1.3rem;
 }
 
-/* Card entrance animation */
 .tst-card {
   padding: 1.6rem;
   display: flex;
@@ -599,8 +597,13 @@
   transition: opacity 0.55s ease, transform 0.55s ease,
               border-color 0.3s, box-shadow 0.3s;
   position: relative;
-  overflow: hidden;
+
+  /* FIX 1: was overflow:hidden — that clips the footer and makes the
+     LinkedIn button un-clickable on some browsers. Remove it. */
+  overflow: visible;
 }
+
+/* Hover shimmer — pointer-events:none so it NEVER blocks child clicks */
 .tst-card::before {
   content: '';
   position: absolute;
@@ -611,6 +614,8 @@
     rgba(108,99,255,0.025));
   opacity: 0;
   transition: opacity 0.3s;
+  /* FIX 2: critical — pseudo-element must not catch pointer events */
+  pointer-events: none;
 }
 .tst-card:hover::before { opacity: 1; }
 .tst-card:hover {
@@ -654,20 +659,23 @@
   gap: 0.9rem;
   padding-top: 0.8rem;
   border-top: 1px solid var(--gb);
+  /* ensure footer sits above the ::before shimmer */
+  position: relative;
+  z-index: 2;
 }
 
-/* Avatar */
+/* Avatar ring — box-shadow is set inline in JSX (no color-mix needed) */
 .tst-avatar-wrap {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 2px solid var(--ring, var(--c1));
+  border: 2px solid var(--c1); /* overridden inline per card */
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--ring, var(--c1)) 30%, transparent);
+  transition: box-shadow 0.3s;
 }
 .tst-avatar-img {
   width: 100%;
@@ -712,27 +720,34 @@
   text-transform: uppercase;
 }
 
-/* LinkedIn icon button */
+/* LinkedIn button
+   position:relative + z-index:10 puts it above the card's ::before overlay */
 .tst-li-btn {
   flex-shrink: 0;
   width: 34px;
   height: 34px;
   border-radius: 8px;
-  background: rgba(0,119,181,0.12);
-  border: 1px solid rgba(0,119,181,0.2);
+  background: rgba(0, 119, 181, 0.12);
+  border: 1px solid rgba(10, 102, 194, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #0A66C2;
   font-size: 1.05rem;
   text-decoration: none;
-  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  transition: background 0.2s, color 0.2s, border-color 0.2s,
+              transform 0.2s, box-shadow 0.2s;
 }
 .tst-li-btn:hover {
   background: #0A66C2;
   color: #fff;
   border-color: #0A66C2;
-  transform: scale(1.08);
+  transform: scale(1.1);
+  /* FIX 3: proper LinkedIn blue glow on hover — no color-mix */
+  box-shadow: 0 0 16px rgba(10, 102, 194, 0.55);
 }
 
 /* ── MOBILE CAROUSEL ── */
@@ -743,16 +758,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  overflow: visible;
 }
 
-/* fade transitions */
-.tst-fade-in {
-  animation: tstFadeIn 0.4s ease forwards;
-}
-.tst-fade-out {
-  animation: tstFadeOut 0.3s ease forwards;
-}
-@keyframes tstFadeIn {
+.tst-fade-in  { animation: tstFadeIn  0.4s ease forwards; }
+.tst-fade-out { animation: tstFadeOut 0.3s ease forwards; }
+@keyframes tstFadeIn  {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
@@ -788,7 +799,7 @@
 .tst-arrow:hover {
   border-color: var(--c1);
   color: var(--c1);
-  background: rgba(0,255,224,0.06);
+  background: rgba(0, 255, 224, 0.06);
 }
 .tst-dots {
   display: flex;
@@ -809,10 +820,10 @@
   background: var(--c1);
   width: 18px;
   border-radius: 3px;
-  box-shadow: 0 0 8px rgba(0,255,224,0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 224, 0.4);
 }
 
-/* ── LinkedIn CTA ── */
+/* LinkedIn CTA */
 .tst-cta {
   display: flex;
   justify-content: center;
@@ -829,7 +840,10 @@
   position: relative;
   font-weight: 500;
 }
-.tst-cta-link:hover { color: #0A66C2; transform: translateY(-2px); }
+.tst-cta-link:hover {
+  color: #0A66C2;
+  transform: translateY(-2px);
+}
 .tst-cta-link::after {
   content: '';
   position: absolute;
@@ -844,17 +858,14 @@
 .tst-cta-link .arrow { transition: transform 0.2s; }
 .tst-cta-link:hover .arrow { transform: translate(3px, -3px); }
 
-
+/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .tst-grid { grid-template-columns: 1fr; }
 }
-
 @media (max-width: 820px) {
-  /* hide desktop grid, show carousel */
   .tst-grid { display: none; }
   .tst-carousel { display: block; }
 }
-
   /* MOBILE */
   @media(max-width:820px) {
     nav { padding: 0 4%; }
